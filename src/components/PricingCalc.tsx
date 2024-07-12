@@ -26,7 +26,12 @@ const PricingCalculator = () => {
       }));
       setCalculatedFee(0);
     }
-  }, [formData.numberOfSecurities, formData.frequency, formData.hoursPerDay]);
+  }, [
+    formData.numberOfSecurities,
+    formData.frequency,
+    formData.hoursPerDay,
+    formData,
+  ]);
 
   return (
     <div className="flex h-screen">
