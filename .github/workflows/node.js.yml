@@ -7,6 +7,7 @@ on:
       - prod  # Trigger on pushes to main and prod branches
   pull_request:
     branches: ["main"]
+    branches: ["prod"]
 
 permissions:
   contents: write
