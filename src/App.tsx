@@ -5,7 +5,7 @@ import PricingCalculator from "./components/PricingCalc";
 const App = () => {
   return (
     <div>
-      <PricingCalculator/>
+     <PricingCalculator />
     </div>
   );
 };

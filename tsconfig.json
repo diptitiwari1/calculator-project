@@ -16,4 +16,4 @@
       "allowImportingTsExtensions": true,
       "lib": ["dom", "es2015"],
     }
-  }
+}
