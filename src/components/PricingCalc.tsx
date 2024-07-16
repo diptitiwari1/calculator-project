@@ -42,11 +42,11 @@ const PricingCalculator = () => {
         <div className="flex w-full gap-8 p-[30px] justify-center">
           <div className="flex flex-col bg-[#f5f7f9] max-h-[calc(100vh-150px)] max-w-[600px] w-full rounded-xl shadow-xl">
             <div className="m-4">
-              <p className="text-[30px] font-bold">Calculator(main)</p>
+              <p className="text-[30px] font-bold">Calculator(main..)</p>
             </div>
             <div className="flex flex-col m-5 gap-y-8 overflow-y-auto max-h-[calc(100vh-226px)] pr-[10px]">
               <label className="font-bold text-[17px] border-b-4 border-b-[#ccc]">
-                <p className="mb-2">Number of Securities..</p>
+                <p className="mb-2">Number of Securities(main)..</p>
               </label>
               <input
                 className={`w-full border border-black rounded-md p-[8px] ${
