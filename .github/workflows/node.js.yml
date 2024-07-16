@@ -28,7 +28,9 @@ jobs:
       - name: Deploy to gh-pages for main
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          npx gh-pages -d build -b gh-pages-main -u "github-actions-bot <support+actions@github.com>"
+          mkdir -p build/main
+          mv build/* build/main/
+          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -50,6 +52,8 @@ jobs:
       - name: Deploy to gh-pages for prod
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          npx gh-pages -d build -b gh-pages-prod -u "github-actions-bot <support+actions@github.com>"
+          mkdir -p build/prod
+          mv build/* build/prod/
+          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
