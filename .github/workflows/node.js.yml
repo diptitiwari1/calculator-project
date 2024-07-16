@@ -2,62 +2,42 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main", "prod"]
+    branches:
+      - main
+      - prod
   pull_request:
-    branches: ["main", "prod"]
-
-permissions:
-  contents: write
+    branches:
+      - main
+      - prod
 
 jobs:
-  build-main:
-    if: github.ref == 'refs/heads/main'
+  build-and-deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm ci
-      - run: npm run build --if-present
-      - name: Deploy to gh-pages for main
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          mkdir -p temp_build
-          cp -r build/* temp_build/
-          mkdir -p build/main
-          cp -r temp_build/* build/main/
-          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        node-version: [18.x]  # Adjust Node.js version as needed
 
-  build-prod:
-    if: github.ref == 'refs/heads/prod'
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm ci
-      - run: npm run build --if-present
-      - name: Deploy to gh-pages for prod
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          mkdir -p temp_build
-          cp -r build/* temp_build/
-          mkdir -p build/prod
-          cp -r temp_build/* build/prod/
-          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build and deploy to GitHub Pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run build
+          if [ ${{ github.ref }} == 'refs/heads/main' ]; then
+            # Deploy to main branch URL
+            npx --no-install gh-pages -d build -b main -u "github-actions-bot <support+actions@github.com>"
+          elif [ ${{ github.ref }} == 'refs/heads/prod' ]; then
+            # Deploy to prod branch URL
+            npx --no-install gh-pages -d build -b prod -u "github-actions-bot <support+actions@github.com>"
+          fi
