@@ -37,7 +37,7 @@ const PricingCalculator = () => {
     <div className="flex h-screen">
       <div className="flex flex-col w-full">
         <div className="flex m-6 justify-center sm:text-[30px] text-[25px] font-bold text-[#0d2c8a] underline">
-          <p>Pricing Calculator For EDF(prod..)</p>
+          <p>Pricing Calculator For EDF(prodd..)</p>
         </div>
         <div className="flex w-full gap-8 p-[30px] justify-center">
           <div className="flex flex-col bg-[#f5f7f9] max-h-[calc(100vh-150px)] max-w-[600px] w-full rounded-xl shadow-xl">

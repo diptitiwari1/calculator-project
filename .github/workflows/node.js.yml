@@ -2,10 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches:
-      - prod  # Trigger on pushes to main and prod branches
+    branches: ["main", "prod"]
   pull_request:
-    branches: ["prod"]
+    branches: ["main", "prod"]
 
 permissions:
   contents: write
@@ -30,17 +29,18 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
 
-      - name: Deploy with gh-pages to main
+      - name: Deploy with gh-pages for main
+        if: github.ref == 'refs/heads/main'
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
+          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>" -r https://github.com/${{ github.repository }}.git -b gh-pages -m "Deploy main" -c false --dist build --dest main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy with gh-pages to prod
+      - name: Deploy with gh-pages for prod
         if: github.ref == 'refs/heads/prod'
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
+          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>" -r https://github.com/${{ github.repository }}.git -b gh-pages -m "Deploy prod" -c false --dist build --dest prod
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
