@@ -33,7 +33,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>" -r https://github.com/${{ github.repository }}.git -b gh-pages -m "Deploy main" -c false --dist build --dest main
+          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>" -r https://github.com/${{ github.repository }}.git -b gh-pages -m "Deploy main" --dest main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -41,6 +41,6 @@ jobs:
         if: github.ref == 'refs/heads/prod'
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>" -r https://github.com/${{ github.repository }}.git -b gh-pages -m "Deploy prod" -c false --dist build --dest prod
+          npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>" -r https://github.com/${{ github.repository }}.git -b gh-pages -m "Deploy prod" --dest prod
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
